@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "flashalpha-historical": {
+      "type": "http",
+      "url": "https://historical.flashalpha.com/mcp"
+    }
+  }
+}

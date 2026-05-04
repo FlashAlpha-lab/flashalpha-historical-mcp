@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.tdobrowolski1/flashalpha-historical",
+  "description": "Point-in-time replay of FlashAlpha options analytics — ask any LLM what GEX, gamma flip, VRP, narrative, max pain, or the full stock summary looked like at any minute back to 2018-04-16",
+  "repository": {
+    "url": "https://github.com/FlashAlpha-lab/flashalpha-historical-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://historical.flashalpha.com/mcp"
+    }
+  ]
+}

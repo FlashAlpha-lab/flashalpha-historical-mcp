@@ -1,0 +1,21 @@
+# Local tooling / secrets — never commit
+.claude/
+CLAUDE.md
+.env
+.env.*
+
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Sandbox / agent / harness caches (cross-ecosystem — defensive)
+.dotnet/
+.gocache/
+.gopath/
+.m2/
+.review-artifacts/
+.agent-tools/

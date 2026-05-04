@@ -1,0 +1,6 @@
+{
+  "flashalpha-historical": {
+    "transport": "http",
+    "url": "https://historical.flashalpha.com/mcp"
+  }
+}
