@@ -4,14 +4,14 @@ Connect Claude, Cursor, Windsurf, or any MCP-compatible AI assistant to the
 **FlashAlpha Historical API** — point-in-time replay of every live analytics
 endpoint. Ask in natural language what GEX, gamma flip, VRP, narrative, max
 pain, or the full stock summary looked like at **any minute back to
-2018-04-16**.
+2017-01-03**.
 
 > Companion to [`flashalpha-mcp`](https://github.com/FlashAlpha-lab/flashalpha-mcp)
 > (live data). Same API key, same response shapes — every tool here just adds
 > a required `at` parameter.
 
-> **Point-in-time replay since 2018.** Backtest dealer positioning (GEX, VRP,
-> vanna/charm, max pain) at any minute since 2018-04-16, then trade the same
+> **Point-in-time replay since 2017.** Backtest dealer positioning (GEX, VRP,
+> vanna/charm, max pain) at any minute since 2017-01-03, then trade the same
 > endpoints live. No look-ahead, no training-serving skew. The Historical API
 > is an **Alpha tier** capability.
 
@@ -189,7 +189,7 @@ See [`docs/api.md`](docs/api.md) for full parameter & response shapes.
 ## Coverage
 
 - **Symbols:** SPY (more on demand)
-- **Range:** 2018-04-16 → 2026-04-02 (extended forward as new data is published)
+- **Range:** 2017-01-03 → 2026-04-02 (extended forward as new data is published)
 - **Granularity:** 1-minute option quotes, greeks, stock bars; EOD OI / SVI /
   macro
 
@@ -214,7 +214,7 @@ MIT
 ## Get access
 
 The Historical API requires the **Alpha tier ($1,499/mo)**: the only public source
-of aggregate vanna/charm exposure and point-in-time replay since 2018.
+of aggregate vanna/charm exposure and point-in-time replay since 2017.
 
 Quant teams, prop desks, and vol funds:
 **[flashalpha.com/for-quant-teams](https://flashalpha.com/for-quant-teams?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp)**
