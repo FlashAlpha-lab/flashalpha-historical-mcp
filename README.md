@@ -186,6 +186,57 @@ See [`docs/api.md`](docs/api.md) for full parameter & response shapes.
 
 ---
 
+## Data provenance: `data_as_of` and `archive_as_of`
+
+Every tool result carries two provenance objects in the same shape, plus
+`endpoint_version` identifying the deployment that produced it.
+
+`archive_as_of` is the vintage of the archive rows **actually replayed** for the timestamp
+requested - equity and index spot, their option chains, futures and futures options, the
+classified trade tape, settled open interest, and the macro series, each reported
+separately because they are stored and replayed independently.
+
+`data_as_of` is the live-feed counterpart and is all `null` here, because a replay node
+reads the archive and consumes no live feed. It is still returned so the envelope has one
+shape across the live and historical services, and so a historical result cannot be
+mistaken for a live one.
+
+| Field | Data class |
+|---|---|
+| `node` | Which node answered |
+| `equity_feed` | Equity and ETF spot rows |
+| `equity_options_feed` | Equity and ETF option quote rows |
+| `index_feed` | Index spot rows (SPX, NDX, RUT, VIX) |
+| `index_options_feed` | Index option quote rows |
+| `futures_feed` | Futures price rows |
+| `futures_options_feed` | Futures option quote rows |
+| `flow_feed` | Classified trade tape rows |
+| `oi_feed` | Settled open interest, dated to the prior 16:00 ET close |
+| `macro_feed` | VIX, VVIX, SKEW, MOVE, SPX, Fear & Greed |
+
+### Why this matters here
+
+`archive_as_of` is what makes an archive gap detectable. Request a moment with no row and
+the query returns the most recent earlier row; nothing else in the result distinguishes
+the two, so a backtest can carry stale inputs without ever seeing an error.
+
+That risk is sharper through an MCP client than through an SDK. A model reading a replayed
+result has no other way to tell a row stored at the requested instant from one carried
+forward across a gap, and will otherwise present both with equal confidence. Point-in-time
+work should read `archive_as_of` and drop or flag observations whose inputs precede the
+requested instant by more than the study tolerates.
+
+`oi_feed` trailing by a session is correct rather than a gap: settled open interest is
+published once per session, so the newest figure that existed at any intraday moment is
+the prior close.
+
+A field is `null` when the result did not read that class of data - a GEX call reads
+equity spot, the option chain and settled OI, so `futures_feed` being `null` says nothing
+about the answer.
+
+Full reference: <https://flashalpha.com/docs/lab-api-overview#response-envelope> and the
+methodology whitepaper at <https://flashalpha.com/methodology#freshness-reporting>.
+
 ## Coverage
 
 - **Symbols:** SPY (more on demand)
