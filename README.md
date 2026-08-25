@@ -196,7 +196,7 @@ requested - equity and index spot, their option chains, futures and futures opti
 classified trade tape, settled open interest, and the macro series, each reported
 separately because they are stored and replayed independently.
 
-`data_as_of` is the live-feed counterpart and is all `null` here, because a replay node
+`data_as_of` is the live-feed counterpart and reports `null` for every feed here, because a replay node
 reads the archive and consumes no live feed. It is still returned so the envelope has one
 shape across the live and historical services, and so a historical result cannot be
 mistaken for a live one.
@@ -206,7 +206,7 @@ mistaken for a live one.
 | `node` | Which node answered |
 | `equity_feed` | Equity and ETF spot rows |
 | `equity_options_feed` | Equity and ETF option quote rows |
-| `index_feed` | Index spot rows (SPX, NDX, RUT, VIX) |
+| `index_feed` | Index spot rows (SPX, RUT, VIX and the other index roots) |
 | `index_options_feed` | Index option quote rows |
 | `futures_feed` | Futures price rows |
 | `futures_options_feed` | Futures option quote rows |
