@@ -12,6 +12,29 @@ Every analytics tool below takes:
 
 ---
 
+## Response envelope
+
+Every response carries `endpoint_version` plus two provenance objects in the same shape:
+
+- **`archive_as_of`** - the vintage of the archive rows actually replayed for the
+  timestamp requested, reported separately per data class (`equity_feed`,
+  `equity_options_feed`, `index_feed`, `index_options_feed`, `futures_feed`,
+  `futures_options_feed`, `flow_feed`, `oi_feed`, `macro_feed`, plus `node`).
+- **`data_as_of`** - the live-feed counterpart, all `null` here, because a replay node
+  reads the archive and consumes no live feed. It is still returned so the envelope has
+  one shape across the live and historical services.
+
+`archive_as_of` is what makes an archive gap detectable: request a moment with no row and
+the query returns the most recent earlier row, and nothing else in the response
+distinguishes the two. Point-in-time work should read it and drop or flag observations
+whose inputs precede the requested instant by more than the study tolerates.
+
+`oi_feed` trailing by a session is correct rather than a gap: settled open interest is
+published once per session, so the newest figure that existed at any intraday moment is
+the prior close.
+
+Full reference: <https://flashalpha.com/docs/lab-api-overview#response-envelope>
+
 ## Coverage
 
 ### `historical_tickers`
