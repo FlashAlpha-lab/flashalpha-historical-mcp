@@ -186,6 +186,19 @@ See [`docs/api.md`](docs/api.md) for full parameter & response shapes.
 
 ---
 
+## sell-window replay: what did it say on any session since 2018?
+
+[sell-window](https://flashalpha.com/docs/lab-api-strategies-sell-window?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window) answers "should you sell options today?" every session for SPY, QQQ and IWM. More than 5 million backtests led to this one endpoint. The replay is a REST route and an SDK method, not an MCP tool on this server, so call it directly:
+
+```bash
+curl "https://historical.flashalpha.com/v1/strategies/sell-window/SPY?at=2026-10-16T09:35:00" \
+  -H "X-Api-Key: YOUR_API_KEY"
+```
+
+`at=<session>T09:35:00` returns the backtest's entry strikes. It needs Alpha or higher. The SDKs have typed methods: [flashalpha-historical-python](https://github.com/FlashAlpha-lab/flashalpha-historical-python), [flashalpha-historical-js](https://github.com/FlashAlpha-lab/flashalpha-historical-js), [flashalpha-historical-go](https://github.com/FlashAlpha-lab/flashalpha-historical-go), [flashalpha-historical-java](https://github.com/FlashAlpha-lab/flashalpha-historical-java) and [flashalpha-historical-dotnet](https://github.com/FlashAlpha-lab/flashalpha-historical-dotnet).
+
+**Read more:** [historical docs](https://flashalpha.com/docs/historical-sell-window?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window) | [trading guide](https://flashalpha.com/articles/complete-guide-trading-sell-window-spy-qqq-iwm?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window) | [every backtested trade](https://flashalpha.com/articles/sell-window-backtest-every-trade-2018-2026?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window)
+
 ## Data provenance: `data_as_of` and `archive_as_of`
 
 Every tool result carries two provenance objects in the same shape, plus
