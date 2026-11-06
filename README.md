@@ -195,7 +195,7 @@ curl "https://historical.flashalpha.com/v1/strategies/sell-window/SPY?at=2026-10
   -H "X-Api-Key: YOUR_API_KEY"
 ```
 
-`at=<session>T09:35:00` returns the backtest's entry strikes. It needs Alpha or higher. The SDKs have typed methods: [flashalpha-historical-python](https://github.com/FlashAlpha-lab/flashalpha-historical-python), [flashalpha-historical-js](https://github.com/FlashAlpha-lab/flashalpha-historical-js), [flashalpha-historical-go](https://github.com/FlashAlpha-lab/flashalpha-historical-go), [flashalpha-historical-java](https://github.com/FlashAlpha-lab/flashalpha-historical-java) and [flashalpha-historical-dotnet](https://github.com/FlashAlpha-lab/flashalpha-historical-dotnet).
+`at=<session>T09:35:00` returns the backtest's entry strikes. It needs Alpha or higher. The historical SDKs have typed methods. See [flashalpha-historical-python](https://github.com/FlashAlpha-lab/flashalpha-historical-python) for an example.
 
 **Read more:** [historical docs](https://flashalpha.com/docs/historical-sell-window?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window) | [trading guide](https://flashalpha.com/articles/complete-guide-trading-sell-window-spy-qqq-iwm?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window) | [every backtested trade](https://flashalpha.com/articles/sell-window-backtest-every-trade-2018-2026?utm_source=github&utm_medium=readme&utm_campaign=repo-flashalpha-historical-mcp&utm_content=sell-window)
 
