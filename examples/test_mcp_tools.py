@@ -75,13 +75,30 @@ def initialize(session: requests.Session) -> None:
     })
 
 
+def payload_problem(result: dict[str, Any]) -> str | None:
+    """Upstream failures arrive as ordinary text, so a pass has to mean data came back."""
+    body = result.get("result", {})
+    parts = [part.get("text", "") for part in body.get("content", []) if part.get("type") == "text"]
+    text = "\n".join(parts).strip()
+    if body.get("isError") or not text:
+        return text[:160] or "empty result"
+    try:
+        payload = json.loads(text)
+    except ValueError:
+        return text[:160]
+    if isinstance(payload, dict) and (payload.get("status") == "ERROR" or payload.get("error")):
+        return str(payload.get("message") or payload.get("error"))[:160]
+    return None
+
+
 def run(session: requests.Session, tool: str, args: dict[str, Any]) -> str:
     try:
         result = call_tool(session, tool, args)
         if "error" in result:
             return f"{FAIL}  {tool}  → {result['error']}"
-        if result.get("result", {}).get("isError"):
-            return f"{FAIL}  {tool}  → {str(result['result'].get('content'))[:160]}"
+        problem = payload_problem(result)
+        if problem:
+            return f"{FAIL}  {tool}  → {problem}"
         return f"{PASS}  {tool}"
     except Exception as exc:
         return f"{FAIL}  {tool}  → {exc}"
@@ -121,8 +138,12 @@ def main() -> None:
     print(f"  ticker:    {TEST_TICKER}")
     print(f"  as-of:     {TEST_AT}")
     print()
-    for tool, args in cases:
-        print(run(session, tool, args))
+    results = [run(session, tool, args) for tool, args in cases]
+    print("\n".join(results))
+    failed = sum(line.startswith(FAIL) for line in results)
+    print(f"\n{len(results) - failed} passed, {failed} failed")
+    if failed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
