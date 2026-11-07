@@ -37,7 +37,7 @@ Full reference: <https://flashalpha.com/docs/lab-api-overview#response-envelope>
 
 ## Coverage
 
-### `historical_tickers`
+### `get_historical_coverage`
 
 Lists every covered symbol with its date range, healthy day count, and gap
 breakdown.
@@ -51,18 +51,18 @@ breakdown.
 
 ## Market Data
 
-### `historical_stock_quote`
+### `get_historical_stock_quote`
 
 Stock bid/ask/mid/last at the requested minute.
 
-### `historical_option_quote`
+### `get_historical_option_quote`
 
 Option quote(s) + greeks + OI at the minute.
 
 | Param | Type | Required | Description |
 |---|---|---|---|
 | `apiKey` | string | yes | |
-| `ticker` | string | yes | |
+| `symbol` | string | yes | |
 | `at` | string | yes | |
 | `expiry` | string | no | `yyyy-MM-dd` |
 | `strike` | number | no | |
@@ -71,7 +71,7 @@ Option quote(s) + greeks + OI at the minute.
 **Known gaps:** `bidSize` / `askSize` / `volume` always `0`. `svi_vol`
 always `null` (`svi_vol_gated: "backtest_mode"`).
 
-### `historical_surface`
+### `get_historical_surface`
 
 50×50 implied-vol surface grid (tenor × log-moneyness). Returns 404
 `insufficient_data` for sparse historical days (pre-2018 low-volume symbols).
@@ -80,7 +80,7 @@ always `null` (`svi_vol_gated: "backtest_mode"`).
 
 ## Exposure Analytics
 
-### `historical_gex` / `historical_dex` / `historical_vex` / `historical_chex`
+### `get_historical_gex` / `get_historical_dex` / `get_historical_vex` / `get_historical_chex`
 
 Greek exposure by strike (gamma / delta / vanna / charm).
 
@@ -95,16 +95,16 @@ Greek exposure by strike (gamma / delta / vanna / charm).
 **Known gaps:** `call_volume` / `put_volume` always `0`; `call_oi_change` /
 `put_oi_change` always `null`.
 
-### `historical_exposure_summary`
+### `get_historical_exposure_summary`
 
 Net GEX/DEX/VEX/CHEX, gamma flip, regime, ±1% hedging, 0DTE contribution,
 verbal interpretations.
 
-### `historical_exposure_levels`
+### `get_historical_levels`
 
 Gamma flip, max +/- gamma, call/put walls, highest-OI strike, 0DTE magnet.
 
-### `historical_narrative`
+### `get_historical_narrative`
 
 Verbal analysis + prior-day GEX comparison + VIX context. `gex_change` pulls
 the previous trading day's net GEX; `vix` is the closing value for the
@@ -112,7 +112,7 @@ trading day of `at`.
 
 **Known gap:** `narrative.data.top_oi_changes` is always an empty array.
 
-### `historical_zero_dte`
+### `get_historical_zero_dte`
 
 0DTE-specific analytics — regime, expected move, pin risk, hedging, decay,
 flow, levels, strikes. `time_to_close_hours` is computed from `at` against
@@ -131,7 +131,7 @@ for very-near-expiry contracts at minute resolution.
 
 ## Max Pain
 
-### `historical_max_pain`
+### `get_historical_max_pain`
 
 Strike-by-strike pain curve, OI breakdown, dealer alignment, expected move
 context, pin probability, multi-expiry calendar.
@@ -140,7 +140,7 @@ context, pin probability, multi-expiry calendar.
 
 ## Composite
 
-### `historical_stock_summary`
+### `get_historical_stock_summary`
 
 The big one — price, vol (ATM IV, HV20, HV60, VRP, 25d skew, IV term),
 options flow, full exposure block, macro context.
@@ -152,12 +152,12 @@ all `0` / `null`. `macro.vix_futures` / `fear_and_greed` always `null`.
 
 ## Volatility
 
-### `historical_volatility`
+### `get_historical_volatility`
 
 Realized vol ladder (5/10/20/30/60d), IV-RV spreads, skew profiles per
 expiry, term structure, IV dispersion, GEX/theta by DTE bucket.
 
-### `historical_adv_volatility`
+### `get_historical_advanced_volatility`
 
 SVI parameters, forward prices, total variance surface, arbitrage flags,
 variance swap fair values, greek surfaces (vanna/charm/volga/speed).
@@ -166,7 +166,7 @@ variance swap fair values, greek surfaces (vanna/charm/volga/speed).
 
 ## VRP
 
-### `historical_vrp`
+### `get_historical_vrp`
 
 VRP dashboard with **date-bounded** percentile history — only snapshots
 dated strictly before `at` are included, so percentile and z-score reflect
