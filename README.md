@@ -21,8 +21,8 @@ pain, or the full stock summary looked like at **any minute back to
 
 This repository provides documentation, setup, and test scripts for the
 FlashAlpha **Historical** MCP server. The server itself runs at
-`https://historical.flashalpha.com/mcp` and is not open source. It exposes
-historical replay tools through the Model Context Protocol so AI assistants
+`https://lab.flashalpha.com/mcp`, the same endpoint as the live tools, and is not open source. It exposes
+historical replay tools, named `get_historical_*`, through the Model Context Protocol so AI assistants
 can answer point-in-time questions like:
 
 > *"What did SPY dealer positioning look like at the COVID-crash close on
@@ -35,14 +35,14 @@ can answer point-in-time questions like:
 > *"Replay every Friday close in Q1 2024 and tell me on which days dealers
 > were short gamma."*
 
-Backed by 6.7 B option rows + 2 M+ stock minute-bars + EOD OI / SVI / macro.
+Backed by the minute-level archive: option quotes, stock minute-bars, EOD OI, SVI and macro series. `get_historical_coverage` lists each symbol's dates.
 
 ---
 
 ## Server URL
 
 ```
-https://historical.flashalpha.com/mcp
+https://lab.flashalpha.com/mcp
 ```
 
 - **Transport:** Streamable HTTP
@@ -63,7 +63,7 @@ or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
   "mcpServers": {
     "flashalpha-historical": {
       "type": "http",
-      "url": "https://historical.flashalpha.com/mcp"
+      "url": "https://lab.flashalpha.com/mcp"
     }
   }
 }
@@ -72,7 +72,7 @@ or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 ### Claude Code CLI
 
 ```bash
-claude mcp add flashalpha-historical --transport http https://historical.flashalpha.com/mcp
+claude mcp add flashalpha-historical --transport http https://lab.flashalpha.com/mcp
 ```
 
 ### Cursor
@@ -83,7 +83,7 @@ Open **Settings > MCP** and add:
 {
   "flashalpha-historical": {
     "transport": "http",
-    "url": "https://historical.flashalpha.com/mcp"
+    "url": "https://lab.flashalpha.com/mcp"
   }
 }
 ```
@@ -99,7 +99,7 @@ Add to `.vscode/mcp.json`:
   "servers": {
     "flashalpha-historical": {
       "type": "http",
-      "url": "https://historical.flashalpha.com/mcp"
+      "url": "https://lab.flashalpha.com/mcp"
     }
   }
 }
@@ -113,7 +113,7 @@ Open **Cascade > MCP Servers** and add:
 {
   "flashalpha-historical": {
     "transport": "http",
-    "url": "https://historical.flashalpha.com/mcp"
+    "url": "https://lab.flashalpha.com/mcp"
   }
 }
 ```
@@ -144,23 +144,23 @@ Every analytics tool takes a required `at` parameter:
 
 | Tool | Description |
 |---|---|
-| `historical_tickers` | Coverage table — every covered symbol with date range, healthy days, gaps |
-| `historical_stock_quote` | Stock bid/ask/mid/last at the minute |
-| `historical_option_quote` | Option quote(s) + greeks + OI at the minute (filter by `expiry`/`strike`/`type`) |
-| `historical_surface` | 50×50 IV surface grid (tenor × log-moneyness) |
-| `historical_gex` | Gamma exposure by strike |
-| `historical_dex` | Delta exposure by strike |
-| `historical_vex` | Vanna exposure by strike |
-| `historical_chex` | Charm exposure by strike |
-| `historical_exposure_summary` | Net GEX/DEX/VEX/CHEX, gamma flip, regime, ±1% hedging, 0DTE contribution |
-| `historical_exposure_levels` | Gamma flip, call/put walls, max +/- gamma, highest-OI strike |
-| `historical_narrative` | Verbal analysis + prior-day GEX comparison + VIX context |
-| `historical_zero_dte` | 0DTE expected move, pin risk, hedging, decay, flow |
-| `historical_max_pain` | Pain curve, OI breakdown, dealer alignment, pin probability |
-| `historical_stock_summary` | Composite — price, vol, flow, exposure, macro |
-| `historical_volatility` | Realized-vs-implied ladder, skew profiles, term structure |
-| `historical_adv_volatility` | SVI parameters, variance surface, arbitrage flags, variance swap fairs |
-| `historical_vrp` | VRP dashboard with leak-free percentiles (date-bounded) |
+| `get_historical_coverage` | Coverage table — every covered symbol with date range, healthy days, gaps |
+| `get_historical_stock_quote` | Stock bid/ask/mid/last at the minute |
+| `get_historical_option_quote` | Option quote(s) + greeks + OI at the minute (filter by `expiry`/`strike`/`type`) |
+| `get_historical_surface` | 50×50 IV surface grid (tenor × log-moneyness) |
+| `get_historical_gex` | Gamma exposure by strike |
+| `get_historical_dex` | Delta exposure by strike |
+| `get_historical_vex` | Vanna exposure by strike |
+| `get_historical_chex` | Charm exposure by strike |
+| `get_historical_exposure_summary` | Net GEX/DEX/VEX/CHEX, gamma flip, regime, ±1% hedging, 0DTE contribution |
+| `get_historical_levels` | Gamma flip, call/put walls, max +/- gamma, highest-OI strike |
+| `get_historical_narrative` | Verbal analysis + prior-day GEX comparison + VIX context |
+| `get_historical_zero_dte` | 0DTE expected move, pin risk, hedging, decay, flow |
+| `get_historical_max_pain` | Pain curve, OI breakdown, dealer alignment, pin probability |
+| `get_historical_stock_summary` | Composite — price, vol, flow, exposure, macro |
+| `get_historical_volatility` | Realized-vs-implied ladder, skew profiles, term structure |
+| `get_historical_advanced_volatility` | SVI parameters, variance surface, arbitrage flags, variance swap fairs |
+| `get_historical_vrp` | VRP dashboard with leak-free percentiles (date-bounded) |
 
 See [`docs/api.md`](docs/api.md) for full parameter & response shapes.
 

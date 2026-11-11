@@ -10,7 +10,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://historical.flashalpha.com/mcp"
+      "url": "https://lab.flashalpha.com/mcp"
     }
   ]
 }
